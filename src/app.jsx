@@ -1,7 +1,8 @@
 import React from "react";
-import {render} from "react-dom"
+import {render} from "react-dom";
+import GroceryList from "groceries";
 
-class App extends React.Component  {
+export default class App extends React.Component  {
   render() {
     return (
       <div>
@@ -20,7 +21,7 @@ class Header extends React.Component {
 
 class Content extends React.Component {
   render() {
-    return <div className="container">Hello React world!?</div>;
+    return <div className="container"><GroceryList /></div>;
   }
 }
 
@@ -29,5 +30,3 @@ class Footer extends React.Component {
     return <div className="footer">And this one is footer</div>;
   }
 }
-
-render(<App />, document.getElementById('app'));
