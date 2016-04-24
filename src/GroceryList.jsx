@@ -1,26 +1,13 @@
 import React from "react";
+import {connect} from "react-redux";
+import {addGroceryItem} from "./actions/GroceryActions";
 
-export default class GroceryList extends React.Component {
-  constructor() {
-    super();
-    this.state = {items: []};
-    this.onItemAdd = this.onItemAdd.bind(this);
-  }
-
-  onItemAdd(event) {
-    event.preventDefault();
-    this.setState({items: [...this.state.items, {name: "", amount: 0}] });
-  }
-
-  render() {
-    return (
-      <form>
-        { this.state.items.map((item, index) => <GrceryListItem  key={index} item={item} />) }
-        <button onClick={this.onItemAdd}>Add item</button>
-      </form>
-    );
-  }
-}
+const GroceryList = ({ items, onItemAdd }) => (
+  <form>
+    { items.map((item, index) => <GrceryListItem  key={index} item={item} />) }
+    <button onClick={(event) => onItemAdd(event) }>Add item</button>
+  </form>
+);
 
 class GrceryListItem extends React.Component {
   render() {
@@ -33,3 +20,22 @@ class GrceryListItem extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    items: state.items
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onItemAdd: (event) => {
+      event.preventDefault();
+      dispatch(addGroceryItem());
+    }
+  }
+}
+
+const VisibleGroceryList = connect(mapStateToProps, mapDispatchToProps)(GroceryList);
+
+export default VisibleGroceryList;

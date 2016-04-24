@@ -1,6 +1,6 @@
 export const addGroceryItem = (item) => {
   return {
-    type: "ADD_ITE",
+    type: "ADD_ITEM",
     item
   }
 }
