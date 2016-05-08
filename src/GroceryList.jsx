@@ -1,24 +1,43 @@
-import React from "react";
+import React, {PropTypes} from "react";
 import {connect} from "react-redux";
-import {addGroceryItem} from "./actions/GroceryActions";
+import {addGroceryItem, toggleItemState} from "./actions/GroceryActions";
 
-const GroceryList = ({ items, onItemAdd }) => (
+const GroceryList = ({ items, onItemAdd, onItemChecked}) => (
   <form>
-    { items.map((item, index) => <GrceryListItem  key={index} item={item} />) }
+    { items.map(item =>
+      <GrceryListItem  key={item.id}
+        {...item}
+        onClick={(event) => onItemChecked(event, item.id)}
+        />)
+    }
     <button onClick={(event) => onItemAdd(event) }>Add item</button>
   </form>
 );
 
-class GrceryListItem extends React.Component {
-  render() {
-    return (
-      <div>
-        <input type="text" placeholder="Enter grocery"></input>
-        <input type="text"></input>
-        <input type="checkbox"/>
-      </div>
-    );
-  }
+GroceryList.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    amount: PropTypes.number.isRequired,
+    completed: PropTypes.bool.isRequired
+  }).isRequired).isRequired,
+  onItemAdd: PropTypes.func.isRequired,
+  onItemChecked: PropTypes.func.isRequired
+}
+
+const GrceryListItem = ({ onClick, name, amount, completed }) => (
+    <div className={completed ? "completed" : null}>
+      <input type="text" placeholder="Enter grocery" value={name}></input>
+      <input type="text" value={amount}></input>
+      <input type="checkbox" checked={completed ? "checked" : ""} onChange={onClick}/>
+    </div>
+  );
+
+GrceryListItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
+  completed: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -32,10 +51,15 @@ const mapDispatchToProps = (dispatch) => {
     onItemAdd: (event) => {
       event.preventDefault();
       dispatch(addGroceryItem());
+    },
+    onItemChecked: (event, id) => {
+      event.preventDefault();
+      dispatch(toggleItemState(id));
     }
   }
 }
 
 const VisibleGroceryList = connect(mapStateToProps, mapDispatchToProps)(GroceryList);
+const VisibleGroceryListItem = connect(mapStateToProps, mapDispatchToProps)(GrceryListItem);
 
 export default VisibleGroceryList;
