@@ -33,12 +33,17 @@ const GrceryListItem = ({ onClick, onNameChange, onAmountChange, name, amount, c
   let checked = completed ? "true" : null;
   return (
     <div className={completed ? "completed" : null}>
-      <input type="text" placeholder="Enter grocery" value={name} onChange={onNameChange}></input>
-      <input type="number" value={amount} onChange={onAmountChange}></input>
+      <GroceryItemInput onChange={onNameChange} value={name} completed={completed} />
+      <GroceryItemInput onChange={onAmountChange} value={amount} completed={completed} />
       <input type="checkbox" defaultChecked={completed} value={completed} onChange={onClick}/>
     </div>
   );
 }
+
+const GroceryItemInput = ({onChange, value, completed}) => (
+  completed ? <span>{value}</span> :
+  <input type="text" placeholder="Enter grocery" value={value} onChange={onChange}></input>
+);
 
 GrceryListItem.propTypes = {
   name: PropTypes.string.isRequired,
