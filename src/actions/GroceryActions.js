@@ -11,3 +11,19 @@ export const toggleItemState = (id) => {
     id
   }
 }
+
+export const changeItemName = (id, name) => {
+  return {
+    type: "CHANGE_ITEM_NAME",
+    id,
+    name
+  }
+}
+
+export const changeItemAmount = (id, amount) => {
+  return {
+    type: "CHANGE_ITEM_AMOUNT",
+    id,
+    amount
+  }
+}

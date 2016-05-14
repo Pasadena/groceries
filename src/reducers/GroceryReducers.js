@@ -18,6 +18,16 @@ const item = (state, action) => {
       return Object.assign({}, state, {
         completed: !state.completed
       });
+    case "CHANGE_ITEM_NAME":
+      if(state.id != action.id) {
+        return state;
+      }
+      return Object.assign({}, state, { name: action.name });
+    case "CHANGE_ITEM_AMOUNT":
+        if(state.id != action.id) {
+          return state;
+        }
+        return Object.assign({}, state, { amount: parseInt(action.amount, 10) });
     default:
       return state;
   }
@@ -28,6 +38,10 @@ const items = (state = [], action) => {
     case "ADD_ITEM":
       return [...state, item(undefined, action)];
     case "TOGGLE_ITEM_STATE":
+      return state.map(element => item(element, action));
+    case "CHANGE_ITEM_NAME":
+      return state.map(element => item(element, action));
+    case "CHANGE_ITEM_AMOUNT":
       return state.map(element => item(element, action));
     default:
       return state;
