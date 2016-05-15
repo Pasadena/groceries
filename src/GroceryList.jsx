@@ -1,8 +1,8 @@
 import React, {PropTypes} from "react";
 import {connect} from "react-redux";
-import {addGroceryItem, toggleItemState, changeItemName, changeItemAmount} from "./actions/GroceryActions";
+import {addGroceryItem, toggleItemState, changeItemName, changeItemAmount, deleteItem} from "./actions/GroceryActions";
 
-const GroceryList = ({ items, onItemAdd, onItemChecked, onNameChange, onAmountChange}) => (
+const GroceryList = ({ items, onItemAdd, onItemChecked, onNameChange, onAmountChange, onItemDeleted}) => (
   <form>
     { items.map(item =>
       <GrceryListItem  key={item.id}
@@ -10,6 +10,7 @@ const GroceryList = ({ items, onItemAdd, onItemChecked, onNameChange, onAmountCh
         onClick={(event) => onItemChecked(event, item.id)}
         onNameChange={(event) => onNameChange(event, item.id, event.target.value)}
         onAmountChange={(event) => onAmountChange(event, item.id, event.target.value)}
+        onDeleteClicked={(event) => onItemDeleted(event, item.id)}
         />)
     }
     <button onClick={(event) => onItemAdd(event) }>Add item</button>
@@ -29,13 +30,14 @@ GroceryList.propTypes = {
   onAmountChange: PropTypes.func.isRequired
 }
 
-const GrceryListItem = ({ onClick, onNameChange, onAmountChange, name, amount, completed }) => {
+const GrceryListItem = ({ onClick, onNameChange, onAmountChange, onDeleteClicked, name, amount, completed }) => {
   let checked = completed ? "true" : null;
   return (
     <div className={completed ? "completed" : null}>
       <GroceryItemInput onChange={onNameChange} value={name} completed={completed} />
       <GroceryItemInput onChange={onAmountChange} value={amount} completed={completed} />
       <input type="checkbox" defaultChecked={completed} value={completed} onChange={onClick}/>
+      <button value="Delete" onClick={onDeleteClicked} >Delete</button>
     </div>
   );
 }
@@ -77,6 +79,10 @@ const mapDispatchToProps = (dispatch) => {
     onAmountChange: (event, id, amount) => {
       event.preventDefault();
       dispatch(changeItemAmount(id, amount));
+    },
+    onItemDeleted: (event, id) => {
+      event.preventDefault();
+      dispatch(deleteItem(id));
     }
   }
 }

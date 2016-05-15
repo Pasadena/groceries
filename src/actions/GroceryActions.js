@@ -27,3 +27,10 @@ export const changeItemAmount = (id, amount) => {
     amount
   }
 }
+
+export const deleteItem = (id) => {
+  return {
+    type: "DELETE_ITEM",
+    id
+  }
+}

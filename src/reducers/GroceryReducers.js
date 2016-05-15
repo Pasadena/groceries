@@ -43,6 +43,8 @@ const items = (state = [], action) => {
       return state.map(element => item(element, action));
     case "CHANGE_ITEM_AMOUNT":
       return state.map(element => item(element, action));
+    case "DELETE_ITEM":
+      return state.filter(element => element.id != action.id);
     default:
       return state;
   }
