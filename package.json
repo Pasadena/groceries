@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --display-error-details",
-    "start": "webpack --watch & node server.js"
+    "start": "webpack --watch & NODE_ENV=development node server.js"
   },
   "author": "Simo-Pekka Koskinen",
   "license": "ISC",
@@ -22,5 +22,8 @@
     "redux": "^3.5.1",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"
+  },
+  "devDependencies": {
+    "webpack-node-externals": "^1.2.0"
   }
 }
