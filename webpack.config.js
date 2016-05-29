@@ -14,6 +14,7 @@ module.exports = {
       extensions: ['', '.js', '.jsx'],
       alias: {
         groceries: "src/GroceryList",
+        lists: "src/PreviousGroceryLists"
       }
     },
     module: {

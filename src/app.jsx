@@ -1,6 +1,7 @@
 import React from "react";
 import {render} from "react-dom";
-import GroceryList from "groceries";
+import VisibleGroceryList from "groceries";
+import PreviousLists from "lists";
 
 export default class App extends React.Component  {
   render() {
@@ -21,7 +22,11 @@ class Header extends React.Component {
 
 class Content extends React.Component {
   render() {
-    return <div className="container"><GroceryList /></div>;
+    return (
+      <div className="container">
+        <VisibleGroceryList />
+        <PreviousLists />
+      </div>);
   }
 }
 

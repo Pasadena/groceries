@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 let tempId = -1;
+let tempListId = -1;
 
 const item = (state, action) => {
   switch (action.type) {
@@ -9,7 +10,8 @@ const item = (state, action) => {
         id: --tempId,
         name: "",
         amount: 0,
-        completed: false
+        completed: false,
+        listId: null
       }
     case "TOGGLE_ITEM_STATE":
       if(state.id != action.id) {
@@ -45,11 +47,27 @@ const items = (state = [], action) => {
       return state.map(element => item(element, action));
     case "DELETE_ITEM":
       return state.filter(element => element.id != action.id);
+    case "CLOSE_LIST":
+        return [];
     default:
       return state;
   }
 }
 
-const reduceHandlers = combineReducers({ items });
+const lists = (lists = [], action) => {
+  switch(action.type) {
+    case "CLOSE_LIST":
+      let nextListId = --tempListId;
+      action.items.map(element => item.listId = nextListId);
+      action.items.map(element => item.completed = true);
+      items(action.items, action);
+      lists.push({id: nextListId, createdDate: new Date(), items: action.items});
+      return lists;
+    default:
+      return lists;
+  }
+}
+
+const reduceHandlers = combineReducers({ items, lists });
 
 export default reduceHandlers;

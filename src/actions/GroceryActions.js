@@ -34,3 +34,10 @@ export const deleteItem = (id) => {
     id
   }
 }
+
+export const closeList = (items) => {
+  return {
+    type: "CLOSE_LIST",
+    items
+  }
+}
