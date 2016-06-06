@@ -1,26 +1,33 @@
 import React, {PropTypes} from "react";
 import {connect} from "react-redux";
 import {addGroceryItem, toggleItemState, changeItemName, changeItemAmount, deleteItem, closeList} from "./actions/GroceryActions";
+import {Button, FormGroup, FormControl, Checkbox, Col} from 'react-bootstrap';
 
-const GroceryList = ({ items, onItemAdd, onItemChecked, onNameChange, onAmountChange, onItemDeleted, onCloseList}) => (
-  <div>
-    <form>
-      { items.map(item =>
-        <GrceryListItem  key={item.id}
-          {...item}
-          onClick={(event) => onItemChecked(event, item.id)}
-          onNameChange={(event) => onNameChange(event, item.id, event.target.value)}
-          onAmountChange={(event) => onAmountChange(event, item.id, event.target.value)}
-          onDeleteClicked={(event) => onItemDeleted(event, item.id)}
-          />)
-      }
-      <button onClick={(event) => onItemAdd(event) }>Add item</button>
-    </form>
+const GroceryList = ({ items, onItemAdd, onItemChecked, onNameChange, onAmountChange, onItemDeleted, onCloseList}) => {
+  let doneSection = items.length > 0 ? <Button bsStyle="primary" onClick={(event) => onCloseList(event, items) }>Done</Button> :
+    null;
+  return (
     <div>
-      <button onClick={(event) => onCloseList(event, items) }>Done</button>
+      <form>
+        { items.map(item =>
+          <GrceryListItem  key={item.id}
+            {...item}
+            onClick={(event) => onItemChecked(event, item.id)}
+            onNameChange={(event) => onNameChange(event, item.id, event.target.value)}
+            onAmountChange={(event) => onAmountChange(event, item.id, event.target.value)}
+            onDeleteClicked={(event) => onItemDeleted(event, item.id)}
+            />)
+        }
+        <div>
+          <Button bsStyle="primary" onClick={(event) => onItemAdd(event) }>Add item</Button>
+        </div>
+      </form>
+      <div>
+        {doneSection}
+      </div>
     </div>
-  </div>
-);
+  );
+}
 
 GroceryList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
@@ -39,18 +46,27 @@ GroceryList.propTypes = {
 const GrceryListItem = ({ onClick, onNameChange, onAmountChange, onDeleteClicked, name, amount, completed }) => {
   let checked = completed ? "true" : null;
   return (
-    <div className={completed ? "completed" : null}>
-      <GroceryItemInput onChange={onNameChange} value={name} completed={completed} />
-      <GroceryItemInput onChange={onAmountChange} value={amount} completed={completed} />
-      <input type="checkbox" defaultChecked={completed} value={completed} onChange={onClick}/>
-      <button value="Delete" onClick={onDeleteClicked} >Delete</button>
+    <div className="row">
+      <GroceryItemInput onChange={onNameChange} value={name} completed={completed} sizeClass="col-xs-2"/>
+      <GroceryItemInput onChange={onAmountChange} value={amount} completed={completed} sizeClass="col-xs-1"/>
+      <FormGroup bsClass="cols-xs-1">
+        <Col sm={1}>
+          <Checkbox defaultChecked={completed} value={completed} onChange={onClick}/>
+        </Col>
+      </FormGroup>
+      <FormGroup bsClass="col-xs-1">
+        <span className="glyphicon glyphicon-remove" />
+      </FormGroup>
+
     </div>
   );
 }
 
-const GroceryItemInput = ({onChange, value, completed}) => (
+const GroceryItemInput = ({onChange, value, completed, sizeClass}) => (
   completed ? <span>{value}</span> :
-  <input type="text" placeholder="Enter grocery" value={value} onChange={onChange}></input>
+  <FormGroup bsClass={sizeClass}>
+    <FormControl type="text" placeholder="Enter grocery" value={value} onChange={onChange}></FormControl>
+  </FormGroup>
 );
 
 GrceryListItem.propTypes = {

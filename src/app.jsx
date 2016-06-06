@@ -6,7 +6,7 @@ import PreviousLists from "lists";
 export default class App extends React.Component  {
   render() {
     return (
-      <div>
+      <div className="container">
         <Header />
         <Content />
         <Footer />
@@ -16,14 +16,14 @@ export default class App extends React.Component  {
 
 class Header extends React.Component {
   render() {
-    return <div className="header">This one is header</div>;
+    return <div className="header"></div>;
   }
 }
 
 class Content extends React.Component {
   render() {
     return (
-      <div className="container">
+      <div className="content">
         <VisibleGroceryList />
         <PreviousLists />
       </div>);
@@ -32,6 +32,6 @@ class Content extends React.Component {
 
 class Footer extends React.Component {
   render() {
-    return <div className="footer">And this one is footer</div>;
+    return <div className="footer"><a href="https://github.com/Pasadena/groceries">View on Github</a></div>;
   }
 }

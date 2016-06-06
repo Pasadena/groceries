@@ -23,6 +23,18 @@ module.exports = {
           test: /\.jsx?$/,
           exclude: path.resolve(__dirname, "/node_modules/"),
           loader: "babel-loader"
+        },
+        {
+          test: /\.less$/,
+          loader: 'style-loader!css-loader!less-loader'
+        },
+        {
+          test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+          loader: 'url-loader'
+        },
+        {
+          test: /\.css$/,
+          loader: 'style-loader!css-loader'
         }
       ]
     }

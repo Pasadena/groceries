@@ -2,6 +2,14 @@ import React, {PropTypes} from "react";
 import {connect} from "react-redux";
 
 const PreviousGroceryLists = ({ lists }) => (
+  lists.length > 0 ? <AllPreviousListsComponent previousLists={lists} /> : <NoPreviousListsComponent />
+);
+
+const NoPreviousListsComponent = () => (
+  <div>Seems like you this one is your first list matey!</div>
+);
+
+const AllPreviousListsComponent = ({previousLists}) => (
   <div>
     <table>
       <thead>
@@ -19,7 +27,7 @@ const PreviousGroceryLists = ({ lists }) => (
       </tbody>
     </table>
   </div>
-)
+);
 
 const listShape = {
   shape: PropTypes.shape({
