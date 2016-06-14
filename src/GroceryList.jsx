@@ -4,7 +4,9 @@ import {addGroceryItem, toggleItemState, changeItemName, changeItemAmount, delet
 import {Button, FormGroup, FormControl, Checkbox, Col} from 'react-bootstrap';
 
 const GroceryList = ({ items, onItemAdd, onItemChecked, onNameChange, onAmountChange, onItemDeleted, onCloseList}) => {
-  let doneSection = items.length > 0 ? <Button bsStyle="primary" onClick={(event) => onCloseList(event, items) }>Done</Button> :
+  let doneSection = items.length > 0 ?
+    <span className="glyphicon glyphicon-ok icon icon-primary" onClick={(event) => onCloseList(event, items) } />
+      :
     null;
   return (
     <div>
@@ -18,11 +20,10 @@ const GroceryList = ({ items, onItemAdd, onItemChecked, onNameChange, onAmountCh
             onDeleteClicked={(event) => onItemDeleted(event, item.id)}
             />)
         }
-        <div>
-          <Button bsStyle="primary" onClick={(event) => onItemAdd(event) }>Add item</Button>
-        </div>
       </form>
-      <div>
+      <div className="list-controls">
+        <span className="glyphicon glyphicon-plus icon icon-primary" onClick={(event) => onItemAdd(event) }
+          title="Add new item"/>
         {doneSection}
       </div>
     </div>
@@ -46,16 +47,15 @@ GroceryList.propTypes = {
 const GrceryListItem = ({ onClick, onNameChange, onAmountChange, onDeleteClicked, name, amount, completed }) => {
   let checked = completed ? "true" : null;
   return (
-    <div className="row">
-      <GroceryItemInput onChange={onNameChange} value={name} completed={completed} sizeClass="col-xs-2"/>
+    <div className="row item-row">
+      <GroceryItemInput onChange={onNameChange} value={name} completed={completed} sizeClass="col-xs-4"/>
       <GroceryItemInput onChange={onAmountChange} value={amount} completed={completed} sizeClass="col-xs-1"/>
-      <FormGroup bsClass="cols-xs-1">
-        <Col sm={1}>
-          <Checkbox defaultChecked={completed} value={completed} onChange={onClick}/>
-        </Col>
+      <FormGroup bsClass="col-xs-1" bsSize="large" className="icon-container-parent">
+        {checked ? <span className="glyphicon glyphicon-check icon-container icon-primary" onClick={onClick}/> :
+        <span className="glyphicon glyphicon-unchecked icon-container icon icon-primary" onClick={onClick}/> }
       </FormGroup>
-      <FormGroup bsClass="col-xs-1">
-        <span className="glyphicon glyphicon-remove" />
+      <FormGroup bsClass="col-xs-1" bsSize="large" className="icon-container-parent">
+        <span className="glyphicon glyphicon-remove icon-container icon icon-danger" onClick={onDeleteClicked}/>
       </FormGroup>
 
     </div>
@@ -64,7 +64,7 @@ const GrceryListItem = ({ onClick, onNameChange, onAmountChange, onDeleteClicked
 
 const GroceryItemInput = ({onChange, value, completed, sizeClass}) => (
   completed ? <span>{value}</span> :
-  <FormGroup bsClass={sizeClass}>
+  <FormGroup bsClass={sizeClass} bsSize="large">
     <FormControl type="text" placeholder="Enter grocery" value={value} onChange={onChange}></FormControl>
   </FormGroup>
 );
@@ -82,7 +82,8 @@ GrceryListItem.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    items: state.items
+    items: state.items,
+    lists: state.lists
   }
 }
 

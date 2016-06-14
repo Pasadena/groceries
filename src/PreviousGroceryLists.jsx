@@ -1,15 +1,18 @@
 import React, {PropTypes} from "react";
 import {connect} from "react-redux";
 
-const PreviousGroceryLists = ({ lists }) => (
-  lists.length > 0 ? <AllPreviousListsComponent previousLists={lists} /> : <NoPreviousListsComponent />
-);
+const PreviousGroceryLists = ({ lists }) => {
+  let component = lists.length > 0 ? <AllPreviousListsComponent previousLists={lists} /> : <NoPreviousListsComponent />;
+  return (
+    component
+  );
+}
 
 const NoPreviousListsComponent = () => (
   <div>Seems like you this one is your first list matey!</div>
 );
 
-const AllPreviousListsComponent = ({previousLists}) => (
+const AllPreviousListsComponent = ({ previousLists }) => (
   <div>
     <table>
       <thead>
@@ -19,7 +22,7 @@ const AllPreviousListsComponent = ({previousLists}) => (
         </tr>
       </thead>
       <tbody>
-        { lists.map(list =>
+        { previousLists.map(list =>
           <PreviousListItem key={list.id}
             list = {list}
           />

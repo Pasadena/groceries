@@ -54,17 +54,15 @@ const items = (state = [], action) => {
   }
 }
 
-const lists = (lists = [], action) => {
+const lists = (state = [], action) => {
   switch(action.type) {
     case "CLOSE_LIST":
       let nextListId = --tempListId;
-      action.items.map(element => item.listId = nextListId);
-      action.items.map(element => item.completed = true);
-      items(action.items, action);
-      lists.push({id: nextListId, createdDate: new Date(), items: action.items});
-      return lists;
+      let completedItems = action.items.map(element => item.listId = nextListId );
+      items(completedItems, action);
+      return [...state, {id: nextListId, createdDate: new Date(), items: completedItems}];
     default:
-      return lists;
+      return state;
   }
 }
 
