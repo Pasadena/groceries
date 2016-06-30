@@ -41,3 +41,11 @@ export const closeList = (items) => {
     items
   }
 }
+
+export const groceryListsRequested = () => {
+  return {
+    type: "LISTS_REQUESTED"
+  }
+}
+
+export const groceryListsLoaded = () => ({ type: "LISTS_LOADED" });

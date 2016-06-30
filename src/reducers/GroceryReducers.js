@@ -66,6 +66,17 @@ const lists = (state = [], action) => {
   }
 }
 
-const reduceHandlers = combineReducers({ items, lists });
+const requests = (state = { isLoading: false }, action) => {
+  switch(action.type) {
+    case "LISTS_REQUESTED":
+      return {isLoading: true};
+    case "LISTS_LOADED":
+      return {isLoading: false};
+    default:
+      return {isLoading: false};
+  }
+}
+
+const reduceHandlers = combineReducers({ items, lists, requests });
 
 export default reduceHandlers;

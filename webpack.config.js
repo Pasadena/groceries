@@ -2,7 +2,9 @@ var path = require("path");
 var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-    entry: "index.js",
+    entry: [
+      "index.js"
+    ],
     devtool: "source-map",
     output: {
       path: path.resolve(__dirname, "public"),
@@ -11,7 +13,7 @@ module.exports = {
     },
     resolve: {
       root: path.resolve(__dirname),
-      extensions: ['', '.js', '.jsx'],
+      extensions: ['', '.js', '.jsx', '.json'],
       alias: {
         groceries: "src/GroceryList",
         lists: "src/PreviousGroceryLists"
@@ -36,9 +38,7 @@ module.exports = {
           test: /\.css$/,
           loader: 'style-loader!css-loader'
         }
-      ]
+      ],
+      noParse: /lie\.js$/
     }
-    //,
-    //target: 'node',
-    //externals: [nodeExternals()],
 }
