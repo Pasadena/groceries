@@ -1,17 +1,18 @@
 import React, {PropTypes} from "react";
 import {connect} from "react-redux";
+import { completeGroceryList } from "./controllers/DataBaseController";
 import {addGroceryItem, toggleItemState, changeItemName, changeItemAmount, deleteItem, closeList} from "./actions/GroceryActions";
 import {Button, FormGroup, FormControl, Checkbox, Col} from 'react-bootstrap';
 
-const GroceryList = ({ items, onItemAdd, onItemChecked, onNameChange, onAmountChange, onItemDeleted, onCloseList}) => {
-  let doneSection = items.length > 0 ?
-    <span className="glyphicon glyphicon-ok icon icon-primary" onClick={(event) => onCloseList(event, items) } />
+const GroceryList = ({ current, items, onItemAdd, onItemChecked, onNameChange, onAmountChange, onItemDeleted, onCloseList}) => {
+  let doneSection = items && items.length > 0 ?
+    <span className="glyphicon glyphicon-ok icon icon-primary" onClick={(event) => onCloseList(event, current, items) } />
       :
     null;
   return (
     <div>
       <form>
-        { items.map(item =>
+        { (items ? items : [] ).map(item =>
           <GrceryListItem  key={item.id}
             {...item}
             onClick={(event) => onItemChecked(event, item.id)}
@@ -82,8 +83,9 @@ GrceryListItem.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    items: state.items,
-    lists: state.lists
+    items: state.lists.current.items,
+    lists: state.lists,
+    current: state.lists.current
   }
 }
 
@@ -109,9 +111,10 @@ const mapDispatchToProps = (dispatch) => {
       event.preventDefault();
       dispatch(deleteItem(id));
     },
-    onCloseList: (event, items) => {
+    onCloseList: (event, current, items) => {
       event.preventDefault();
-      dispatch(closeList(items));
+      current.items = items;
+      dispatch(completeGroceryList(current));
     }
   }
 }

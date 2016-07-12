@@ -4,7 +4,7 @@ import {render} from "react-dom";
 import VisibleGroceryList from "groceries";
 import PreviousLists from "lists";
 import {Modal, ProgressBar} from 'react-bootstrap';
-import {loadGroceryLists} from "./controllers/DataBaseController";
+import { loadCompletedLists, loadActiveList } from "./controllers/DataBaseController";
 
 const mapStateToProps = (state) => {
   return {
@@ -14,15 +14,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => (
   {
-    loadInitialState: () => dispatch(loadGroceryLists())
+    loadInitialState: () => dispatch(loadCompletedLists()),
+    loadActiveList: () => dispatch(loadActiveList())
   }
 )
 
 class App extends React.Component  {
   constructor(props) {
     super(props);
-    const { loadInitialState } = this.props;
+    const { loadInitialState, loadActiveList } = this.props;
     loadInitialState();
+    loadActiveList();
   }
   render() {
     return (

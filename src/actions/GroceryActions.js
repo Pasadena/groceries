@@ -22,4 +22,10 @@ Request status actions
 **/
 export const groceryListsRequested = () => ({ type: "LISTS_REQUESTED" });
 
-export const groceryListsLoaded = () => ({ type: "LISTS_LOADED" });
+export const groceryListsLoaded = (lists) => ({ type: "LISTS_LOADED", lists });
+
+export const activeListLoaded = (activeList) => ({ type: "ACTIVE_LIST_LOADED", activeList });
+
+export const groceeryListCompleted = (list) => ({ type: "LIST_COMPLETED", list });
+
+export const groceryListCompleteRequested = () => ({type: "COMPLETE_LIST_REQUESTED"});

@@ -63,7 +63,7 @@ PreviousListItem.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    lists: state.lists
+    lists: state.lists.completed
   }
 }
 
